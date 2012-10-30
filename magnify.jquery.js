@@ -1,5 +1,5 @@
 /*!
- * jQuery magnify
+ * jQuery magnify a short hand method for preview of thumbnailed images on mouseover/mouseenter event
  * Author: Kolatzek
  * Licensed under the MIT license
  */
@@ -15,10 +15,10 @@
 		var methods = {
     init : function( options ) {
 			return this.each(function(){
-				$.extend(settings, options);
+				var opt = $.extend({}, settings, options);
 				if($(this).children('a').length != 0) {
-					$(this).bind('mouseenter.magnify', methods.showFullImg);
-					$(this).bind('mouseleave.magnify', methods.hideFullImg);
+					$(this).bind('mouseenter.magnify', opt, methods.showFullImg);
+					$(this).bind('mouseleave.magnify', opt, methods.hideFullImg);
 					if(settings.preload){
 						var img = $(this).children('a').first().attr('href');
 						var tmpimg = '<img src="'+img+'" id="tmp_img_magnify_"/>';
@@ -34,7 +34,7 @@
 			})
 		},
     showFullImg : function( event ) {
-			$.extend(settings, {});
+			var settings = $.extend({}, event.data);
 			var img = $(event.target).children('a').first().attr('href');
 			if(img) {
 				var id = $(event.target).attr('id');
@@ -60,7 +60,7 @@
 			}
     },
     hideFullImg : function( event ) {
-			$.extend(settings, {});
+			var settings = $.extend({}, event.data);
 			$('.'+settings.imgDivClass).hide();
     }
   };
